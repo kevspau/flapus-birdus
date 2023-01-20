@@ -1,0 +1,23 @@
+app:
+    package: mycompany.flappy
+    name: flappy
+    displayName: flappy
+    author: My Company
+    version: '1.0'
+
+    plugins:
+        - sprite
+        - arcade
+        #- nape
+        #- ui
+        #- elements
+
+    libs:
+        #- somelib
+        #- somelib: someversion
+        #- somelib: git:https://github.com/somelibauthor/somelib.git
+
+    defines:
+        #- some_define
+        #- some_define: 'some value'
+
