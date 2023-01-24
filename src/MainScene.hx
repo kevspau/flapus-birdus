@@ -3,25 +3,31 @@ import ceramic.Scene;
 import ceramic.Key;
 import ceramic.Text;
 import ceramic.Quad;
-import Player;
 
 class MainScene extends Scene {
     var plr: Player;
     override function preload() {
         assets.add(Images.PLAYERSHEET);
         assets.add(Images.FLAPUS_BACKGROUND);
+        assets.add(Images.PIPE_HEAD);
+        assets.add(Images.PIPE_TAIL);
     }
     override function create() {
         var bg = new Quad();
         bg.texture = assets.texture(Images.FLAPUS_BACKGROUND);
         bg.width = width;
         bg.height = height;
+        bg.depth = -100;
         add(bg);
 
         plr = new Player();
         plr.pos(width/4, height/2);
         add(plr);
 
+        var pipe = new Pipe(assets.texture(Images.PIPE_HEAD), assets.texture(Images.PIPE_TAIL), DOWN);
+        pipe.pos(width/2, height/2);
+        add(pipe);
+        
         input.onKeyDown(this, onDown);
         input.onKeyUp(this, onUp);
     }
