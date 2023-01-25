@@ -24,8 +24,8 @@ class MainScene extends Scene {
         plr.pos(width/4, height/2);
         add(plr);
 
-        var pipe = new Pipe(assets.texture(Images.PIPE_HEAD), assets.texture(Images.PIPE_TAIL), DOWN);
-        pipe.pos(width/2, height/2);
+        var pipe = new Pipe(assets.texture(Images.PIPE_HEAD), assets.texture(Images.PIPE_TAIL), UP);
+        pipe.pos(width/2, 0);
         add(pipe);
         
         input.onKeyDown(this, onDown);
@@ -35,18 +35,18 @@ class MainScene extends Scene {
         //if flapus goes out of bounds, pauses all motion and shows score
         if (plr.y <= 0 || plr.y >= height) {
             app.arcade.world.isPaused = true;
-            app.scenes.main = new DeathScreen(this);
+            app.scenes.main = new DeathScreen(this); //?maybe add scene transition
         }
         //rotates bird based on state
-        if (plr.smach.state == FLYING && plr.rotation > -20) {
+        if (plr.smach.state == FLYING && plr.rotation > -30) {
             plr.rotation -= 50 * d;
-        } else if (plr.smach.state == FALLING && plr.rotation < 20) {
-            plr.rotation += 50 * d;
+        } else if (plr.smach.state == FALLING && plr.rotation < 30) {
+            plr.rotation += 60 * d;
         }
     }
     function onDown(key:Key) {
         //if space is pressed then flapus starts going up
-        if (key.scanCode == ScanCode.SPACE) {
+        if (key.scanCode == ScanCode.SPACE) { //TODO2 add low pitched beep when space pressed and high pitched beep when space released
             if (plr.smach.state == FALLING) {
                 plr.animation = "flying";
                 plr.gravityY = 0;
