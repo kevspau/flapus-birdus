@@ -6,6 +6,7 @@ import ceramic.Quad;
 
 class MainScene extends Scene {
     var plr: Player;
+    var pipes: Array<Pipe>;
     override function preload() {
         assets.add(Images.PLAYERSHEET);
         assets.add(Images.FLAPUS_BACKGROUND);
@@ -20,12 +21,15 @@ class MainScene extends Scene {
         bg.depth = -100;
         add(bg);
 
+        pipes = new Array<Pipe>();
+
         plr = new Player();
         plr.pos(width/4, height/2);
         add(plr);
 
         var pipe = new Pipe(assets.texture(Images.PIPE_HEAD), assets.texture(Images.PIPE_TAIL), UP);
         pipe.pos(width/2, 0);
+        pipes.push(pipe);
         add(pipe);
         
         input.onKeyDown(this, onDown);
@@ -42,6 +46,16 @@ class MainScene extends Scene {
             plr.rotation -= 50 * d;
         } else if (plr.smach.state == FALLING && plr.rotation < 30) {
             plr.rotation += 60 * d;
+        }
+        
+        //moves the pipes, destroys them if theyre at the edge of the screen
+        for (v in pipes) {
+            if (v.x <= 0) { //needs a bit more logic
+                pipes.remove(v);
+                v.destroy();
+            } else {
+                v.x -= 50 * d;
+            }
         }
     }
     function onDown(key:Key) {
