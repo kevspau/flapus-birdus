@@ -6,42 +6,39 @@ enum Pos {
     DOWN;
 }
 class Pipe extends Visual {
-    var head: Quad;
-    var tail: Array<Quad>;
+    public var head: Quad;
+    public var tail: Quad;
     var scene = app.scenes.main;
     public function new(headtex, tailtex: ceramic.Texture, p: Pos) {
         super();
+
+        initArcadePhysics();
+        immovable = true;
+
         head = new Quad();
-        tail = new Array<Quad>();
+        head.initArcadePhysics();
+
+        tail = new Quad();
+        tail.initArcadePhysics();
+
         head.texture = headtex;
+        tail.texture = tailtex;
         anchor(0.5, 0.5);
         head.anchor(0.5, 1);
+        tail.anchor(0.5, 1);
 
-        var tailLength = Std.random(cast scene.height / tailtex.height - 3);
-        log.debug(scene.height / tailtex.height);
-        log.debug(tailLength);
+        var tailLength = Std.random(cast scene.height / tailtex.height - 10);
+        tail.scaleY = tailLength + 5; //+ 5 keeps the minimum length at 5 in case tailLength = 0
+        tail.x = width/2;
+        head.pos(width/2, height - tailtex.height * (tailLength + 5)); //puts it at the end of the tail
+        add(head);
+        add(tail);
 
-        for (i in 0...tailLength) {
-            var q = new Quad();
-            q.texture = tailtex;
-            q.pos(width/2, height/2 - i * tailtex.height); //TODO1 remove spaces between pipe tails
-            q.anchor(0.5, 1);
-            tail.push(q);
-        }
-        /*tail.texture = tailtex;
-        tail.anchor(0.5, 1); //(DONE)TODO2 set texture of each tail part, set anchor, and set pos to increase height each time
-        tail.pos(width/2, height);*/
+        //log.debug(tailLength);
 
         if (p == UP) {
             rotation = 180;
         }
-
-        for (v in tail) {
-            add(v);
-        }
-
-        head.pos(width/2, tail[tail.length-1].y - tail[tail.length-1].height);
-        add(head);
     }
 }
 //(DONE)TODO1 get size of scene, make random pipe height that leaves room for birdus + another pipe (start with only one)

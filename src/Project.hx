@@ -10,7 +10,7 @@ class Project extends Entity {
 
         super();
 
-        settings.antialiasing = 2;
+        settings.antialiasing = 0;
         settings.background = Color.BLACK;
         settings.targetWidth = 640;
         settings.targetHeight = 480;

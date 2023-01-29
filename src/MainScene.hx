@@ -7,6 +7,10 @@ import ceramic.Quad;
 class MainScene extends Scene {
     var plr: Player;
     var pipes: Array<Pipe>;
+    var interval = 3.0;
+    var pipePos: Pipe.Pos = DOWN;
+    var pipeSpeed = 80;
+    var pipeWaitSpawn = 3.0;
     override function preload() {
         assets.add(Images.PLAYERSHEET);
         assets.add(Images.FLAPUS_BACKGROUND);
@@ -26,14 +30,15 @@ class MainScene extends Scene {
         plr = new Player();
         plr.pos(width/4, height/2);
         add(plr);
-
-        var pipe = new Pipe(assets.texture(Images.PIPE_HEAD), assets.texture(Images.PIPE_TAIL), UP);
-        pipe.pos(width/2, 0);
-        pipes.push(pipe);
-        add(pipe);
         
         input.onKeyDown(this, onDown);
         input.onKeyUp(this, onUp);
+
+        app.arcade.onUpdate(this, (d: Float) -> {
+            for (v in pipes) {
+                app.arcade.world.collide(plr, v); //TODO1 finish pipe collisions
+            }
+        });
     }
     override function update(d: Float) {
         //if flapus goes out of bounds, pauses all motion and shows score
@@ -54,7 +59,23 @@ class MainScene extends Scene {
                 pipes.remove(v);
                 v.destroy();
             } else {
-                v.x -= 50 * d;
+                v.x -= pipeSpeed * d; //how fast the pipes move
+            }
+        }
+
+        //adds new pipes
+        interval += d;
+        if (interval >= pipeWaitSpawn) { //increase number to make space between pipes larger
+            interval -= pipeWaitSpawn;
+            var p = new Pipe(assets.texture(Images.PIPE_HEAD), assets.texture(Images.PIPE_TAIL), pipePos);
+            p.pos(width + p.width/2, (pipePos == UP ? 0 : height));
+            add(p);
+            pipes.push(p);
+
+            pipePos = (pipePos == DOWN ? UP : DOWN);
+            pipeSpeed += 3;
+            if (pipeWaitSpawn > 1.3) { //min wait time is 1.3 seconds
+                pipeWaitSpawn -= 0.1;
             }
         }
     }
