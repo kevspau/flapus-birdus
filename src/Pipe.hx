@@ -14,7 +14,7 @@ class Pipe extends Visual {
 
         initArcadePhysics();
         immovable = true;
-
+        allowGravity = false;
         head = new Quad();
         head.initArcadePhysics();
 
@@ -31,6 +31,8 @@ class Pipe extends Visual {
         tail.scaleY = tailLength + 5; //+ 5 keeps the minimum length at 5 in case tailLength = 0
         tail.x = width/2;
         head.pos(width/2, height - tailtex.height * (tailLength + 5)); //puts it at the end of the tail
+
+        
         add(head);
         add(tail);
 
