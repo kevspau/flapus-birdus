@@ -36,7 +36,9 @@ class MainScene extends Scene {
 
         app.arcade.onUpdate(this, (d: Float) -> {
             for (v in pipes) {
-                app.arcade.world.collide(plr, v); //TODO1 finish pipe collisions
+                app.arcade.world.collide(plr, v, (b1, b2) -> {
+                    log.debug("HIITIITIT");
+                }); //TODO1 finish pipe collisions
             }
         });
     }
@@ -55,7 +57,7 @@ class MainScene extends Scene {
         
         //moves the pipes, destroys them if theyre at the edge of the screen
         for (v in pipes) {
-            if (v.x <= 0) { //needs a bit more logic
+            if (v.x - v.width/2 <= 0) { //needs a bit more logic
                 pipes.remove(v);
                 v.destroy();
             } else {
@@ -67,9 +69,11 @@ class MainScene extends Scene {
         interval += d;
         if (interval >= pipeWaitSpawn) { //increase number to make space between pipes larger
             interval -= pipeWaitSpawn;
+            
             var p = new Pipe(assets.texture(Images.PIPE_HEAD), assets.texture(Images.PIPE_TAIL), pipePos);
             p.pos(width + p.width/2, (pipePos == UP ? 0 : height));
             add(p);
+
             pipes.push(p);
 
             pipePos = (pipePos == DOWN ? UP : DOWN);

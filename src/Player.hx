@@ -13,6 +13,7 @@ class Player extends Sprite {
     public function new() {
         super();
         initArcadePhysics();
+        
         sheet = new SpriteSheet();
         sheet.texture = scene.assets.texture(Images.PLAYERSHEET);
         sheet.grid(64, 64);
