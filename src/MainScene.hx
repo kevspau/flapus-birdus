@@ -12,7 +12,7 @@ class MainScene extends Scene {
     var pipeSpeed = 80;
     var pipeWaitSpawn = 3.0;
     var isDead = false;
-    var score = 0;
+    static public var score = 0;
     override function preload() {
         assets.add(Images.PLAYERSHEET);
         assets.add(Images.BACKGROUND_COLOR_FOREST);
@@ -45,7 +45,8 @@ class MainScene extends Scene {
             for (v in pipes) {
                 app.arcade.world.collide(plr, v, (b1, b2) -> {
                     isDead = true;
-                }); //TODO1 finish pipe collisions
+                    trace("yo");
+                }); //DONE TODO1 finish pipe collisions
             }
         });
     }

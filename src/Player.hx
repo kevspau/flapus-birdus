@@ -21,7 +21,7 @@ class Player extends Sprite {
         sheet.addGridAnimation("falling", [0], 0);
         sheet.addGridAnimation("flying", [1], 0);
 
-        size(31, 31);
+        size(31, 34 );
         anchor(0.5, 0.5);
 
         quad.anchor(0.5, 0.5);

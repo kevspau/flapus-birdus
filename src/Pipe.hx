@@ -11,9 +11,6 @@ class Pipe extends Visual {
     var scene = app.scenes.main;
     public function new(headtex, tailtex: ceramic.Texture, p: Pos) {
         super();
-        initArcadePhysics();
-        immovable = true;
-        allowGravity = false;
 
         var tailLength = Std.random(cast scene.height / tailtex.height - 10);
         tailLength += 5; //increase by 5 so that the pipe size is always at least 5
@@ -39,9 +36,21 @@ class Pipe extends Visual {
         head.pos(width/2, height - tailHeight);
         tail.pos(width/2, height);
 
+        if (p == UP) {
+            anchor(0.5, 0);
+            head.rotation = 180;
+            tail.rotation = 180;
+            tail.pos(width/2, 0);
+            head.pos(width/2, tailHeight);
+            //DONE TODO1 update arcade body after rotation
+        }
+
         add(head);
         add(tail);
-        //body.updateSize(width, height);
+
+        initArcadePhysics();
+        immovable = true;
+        allowGravity = false;
 
         log.debug('width: $width, height: $height');
         log.debug('head.width: ${head.width}, head.height: ${head.height}\ntail.width: ${tail.width}, tail.height: ${tail.height}');
@@ -55,10 +64,6 @@ class Pipe extends Visual {
         q.pos(width/2, height);
         q.depth = 100;
         add(q);*/
-
-        if (p == UP) {
-            rotation = 180;
-        }
     }
 }
 //(DONE)TODO1 get size of scene, make random pipe height that leaves room for birdus + another pipe (start with only one)
