@@ -31,6 +31,11 @@ class MainScene extends Scene {
         plr.pos(width/4, height/2);
         add(plr);
         
+        /*var p = new Pipe(assets.texture(Images.PIPE_HEAD), assets.texture(Images.PIPE_TAIL), pipePos);
+        p.pos(width/4, height);
+        add(p);
+        pipes.push(p);*/
+        
         input.onKeyDown(this, onDown);
         input.onKeyUp(this, onUp);
 
