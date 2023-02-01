@@ -31,6 +31,7 @@ class MainScene extends Scene {
 
         plr = new Player();
         plr.pos(width/4, height/2);
+        plr.gravityY = 600;
         add(plr);
         
         /*var p = new Pipe(assets.texture(Images.PIPE_HEAD), assets.texture(Images.PIPE_TAIL), pipePos);
