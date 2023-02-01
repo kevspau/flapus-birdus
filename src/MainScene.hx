@@ -11,15 +11,17 @@ class MainScene extends Scene {
     var pipePos: Pipe.Pos = DOWN;
     var pipeSpeed = 80;
     var pipeWaitSpawn = 3.0;
+    var isDead = false;
+    var score = 0;
     override function preload() {
         assets.add(Images.PLAYERSHEET);
-        assets.add(Images.FLAPUS_BACKGROUND);
+        assets.add(Images.BACKGROUND_COLOR_FOREST);
         assets.add(Images.PIPE_HEAD);
         assets.add(Images.PIPE_TAIL);
     }
     override function create() {
         var bg = new Quad();
-        bg.texture = assets.texture(Images.FLAPUS_BACKGROUND);
+        bg.texture = assets.texture(Images.BACKGROUND_COLOR_FOREST);
         bg.width = width;
         bg.height = height;
         bg.depth = -100;
@@ -42,16 +44,19 @@ class MainScene extends Scene {
         app.arcade.onUpdate(this, (d: Float) -> {
             for (v in pipes) {
                 app.arcade.world.collide(plr, v, (b1, b2) -> {
-                    log.debug("HIITIITIT");
+                    isDead = true;
                 }); //TODO1 finish pipe collisions
             }
         });
     }
     override function update(d: Float) {
+        if (isDead) {
+            app.arcade.world.isPaused = true;
+            app.scenes.main = new DeathScreen(score);
+        }
         //if flapus goes out of bounds, pauses all motion and shows score
         if (plr.y <= 0 || plr.y >= height) {
-            app.arcade.world.isPaused = true;
-            app.scenes.main = new DeathScreen(this); //?maybe add scene transition
+            isDead = true; //?maybe add scene transition
         }
         //rotates bird based on state
         if (plr.smach.state == FLYING && plr.rotation > -30) {
@@ -65,6 +70,7 @@ class MainScene extends Scene {
             if (v.x - v.width/2 <= 0) { //needs a bit more logic
                 pipes.remove(v);
                 v.destroy();
+                score += 1;
             } else {
                 v.x -= pipeSpeed * d; //how fast the pipes move
             }

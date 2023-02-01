@@ -28,14 +28,15 @@ class Pipe extends Visual {
         tail = new Quad();
         tail.texture = tailtex;
         tail.size(tailtex.width, tailtex.height);
-        tail.scale(1.5);
-        tail.scaleY = tailLength;
+        tail.scale(1.5, tailLength); //makes it the random height
         tail.anchor(0.5, 1);
 
-        anchor(0.5, 1);
-        size(head.width, tail.height + head.height);
+        var tailHeight = tail.height * tailLength; //makes it easier to read
 
-        head.pos(width/2, height - (tail.height * tailLength));
+        anchor(0.5, 1);
+        size(head.width, tailHeight + head.height);
+
+        head.pos(width/2, height - tailHeight);
         tail.pos(width/2, height);
 
         add(head);
@@ -47,10 +48,13 @@ class Pipe extends Visual {
         log.debug('tailtex w & h: ${tailtex.width}, ${tailtex.height}\nheadtex w & h: ${headtex.width}, ${headtex.height}\n\n\n');
         log.debug('collision body x & y: ${body.x}, ${body.y}\ncollision body width & height: ${body.width}, ${body.height}');
 
-        var q = new Quad();
+        /*var q = new Quad(); //pipe hitbox visual
         q.color = ceramic.Color.LIME;
         q.size(width, height);
-        add(q);
+        q.anchor(0.5, 1);
+        q.pos(width/2, height);
+        q.depth = 100;
+        add(q);*/
 
         if (p == UP) {
             rotation = 180;
