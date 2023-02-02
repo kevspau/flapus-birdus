@@ -49,6 +49,7 @@ class DeathScreen extends Scene {
 
         input.onKeyDown(this, (key) -> {
             if (key.scanCode == ceramic.ScanCode.ENTER) {
+                MainScene.score = 0; //reset the score
                 app.scenes.main = new StartScreen();
             }
         });
