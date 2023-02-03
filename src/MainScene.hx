@@ -46,7 +46,6 @@ class MainScene extends Scene {
             for (v in pipes) {
                 app.arcade.world.collide(plr, v, (b1, b2) -> {
                     isDead = true;
-                    trace("yo");
                 }); //DONE TODO1 finish pipe collisions
             }
         });
@@ -57,7 +56,7 @@ class MainScene extends Scene {
             app.scenes.main = new DeathScreen(score);
         }
         //if flapus goes out of bounds, pauses all motion and shows score
-        if (plr.y <= 0 || plr.y >= height) {
+        if (plr.y - plr.height/2 <= 0 || plr.y + plr.height/2 >= height) {
             isDead = true; //?maybe add scene transition
         }
         //rotates bird based on state
@@ -91,7 +90,7 @@ class MainScene extends Scene {
 
             pipePos = (pipePos == DOWN ? UP : DOWN);
             pipeSpeed += 3;
-            if (pipeWaitSpawn > 1.3) { //min wait time is 1.3 seconds
+            if (pipeWaitSpawn > 1.5) { //min wait time is 1.3 seconds
                 pipeWaitSpawn -= 0.1;
             }
         }

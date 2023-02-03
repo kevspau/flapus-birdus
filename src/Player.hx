@@ -21,7 +21,7 @@ class Player extends Sprite {
         sheet.addGridAnimation("falling", [0], 0);
         sheet.addGridAnimation("flying", [1], 0);
 
-        size(31, 34 );
+        size(34, 35);
         anchor(0.5, 0.5);
 
         quad.anchor(0.5, 0.5);
@@ -30,13 +30,13 @@ class Player extends Sprite {
         animation = "falling";
         smach.state = FALLING;
 
-        /*var hb = new Quad(); //player hitbox visual
+        var hb = new Quad(); //player hitbox visual
         hb.color = ceramic.Color.LIME;
         hb.size(width, height);
         hb.anchor(0.5, 0.5);
         hb.pos(width/2, height/2);
         hb.depth = -5;
-        add(hb);*/
+        add(hb);
 
         log.debug('width, height: $width, $height');
         log.debug('quad.width, quad.height: ${quad.width}, ${quad.height}');

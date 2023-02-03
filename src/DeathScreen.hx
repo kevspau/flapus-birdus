@@ -14,6 +14,7 @@ class DeathScreen extends Scene {
         super();
     }
     override public function create() {
+
         var bg = new Quad();
         bg.texture = assets.texture(Images.BACKGROUND_COLOR_FOREST);
         bg.width = width;
@@ -42,16 +43,26 @@ class DeathScreen extends Scene {
         add(score);
 
         var h = new Text();
-        h.content = "Press Enter to go back to the Main Menu.";
+        h.font = assets.font(Fonts.KA_1);
+        h.content = "Enter - Home\nSpace - Restart";
         h.anchor(0.5, 0.5);
         h.pos(width/2, height * 0.9);
+        h.color = Color.BLACK;
+        h.align = ceramic.TextAlign.CENTER;
         add(h);
 
-        input.onKeyDown(this, (key) -> {
-            if (key.scanCode == ceramic.ScanCode.ENTER) {
-                MainScene.score = 0; //reset the score
-                app.scenes.main = new StartScreen();
-            }
-        });
+        input.onceKeyDown(this, keyDown);
+    }
+    function keyDown(key: ceramic.Key) {
+        if (key.scanCode == ceramic.ScanCode.ENTER) {
+            //reset the score
+            MainScene.score = 0;
+            app.scenes.main = new StartScreen();
+        } else if (key.scanCode == ceramic.ScanCode.SPACE) {
+            MainScene.score = 0;
+            app.scenes.main = new MainScene();
+        } else {
+            input.onceKeyDown(this, keyDown);
+        }
     }
 }
