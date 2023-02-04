@@ -68,7 +68,7 @@ class MainScene extends Scene {
         
         //moves the pipes, destroys them if theyre at the edge of the screen
         for (v in pipes) {
-            if (v.x - v.width/2 <= 0) { //needs a bit more logic
+            if (v.x + v.width/2 <= 0) { //needs a bit more logic
                 pipes.remove(v);
                 v.destroy();
                 score += 1;
